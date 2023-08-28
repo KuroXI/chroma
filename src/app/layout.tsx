@@ -1,19 +1,22 @@
 import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import React from "react";
+import { ReactNode } from "react";
+import { ThemeProvider } from "@/components/Theme/ThemeProvider";
+import { Navbar } from "@/components/Navbar/Navbar";
+import { type Metadata } from "next";
 
-const inter = Inter({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'Manga List',
-  description: 'Mockup version',
+export const metadata : Metadata = {
+  title: "Home"
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={"bg-[#141414]"}>
-      <body className={inter.className}>{children}</body>
+    <html lang="en">
+      <body suppressHydrationWarning>
+        <ThemeProvider attribute="class" defaultTheme="dark">
+          <Navbar/>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

@@ -1,12 +1,12 @@
-import Hero from "@/components/Home/Hero";
-import ContinueReading from "@/components/Home/ContinueReading";
-import Featured from "@/components/Home/Featured";
+import {
+  Hero,
+  Featured
+} from "@/components/index"
 
 export default function Home() {
   return (
     <>
       <Hero/>
-      <ContinueReading/>
       <Featured/>
     </>
   )

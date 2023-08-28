@@ -1,24 +1,26 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {MangaResult} from "@/types/Manga";
+import {IManga, IResult} from "@/types/Manga";
+import {axiosInstance} from "@/api/axios";
+import {cleanDescription} from "@/lib/utils";
 
 export default function Hero() {
-  const [data, setData] = useState<MangaResult>();
+  const [data, setData] = useState<IManga>();
 
   useEffect(() => {
-    fetch(`https://api.consumet.org/meta/anilist/advanced-search?type=MANGA&page=1&perPage=50&sort=["POPULARITY_DESC"]`)
-      .then((response) => response.json())
-      .then((data) => {
+    axiosInstance
+      .get(`/meta/anilist/advanced-search?type=MANGA&page=1&perPage=50&sort=["POPULARITY_DESC"]`)
+      .then(({ data } : { data: IResult<IManga> }) => {
         const random = Math.floor(Math.random() * data.results.length);
-        const filteredData : MangaResult[] = data.results.filter((manga : MangaResult) => manga.cover !== null);
+        const filteredData = data.results.filter((manga) => manga.cover !== null);
         setData(filteredData[random]);
       })
   }, []);
 
   return (
     <header
-      className={"relative h-[550px] text-white object-contain"}
+      className={"relative h-[500px] object-contain bg-background"}
       style={{
         backgroundImage: `url(${data?.cover})`,
         backgroundSize: "cover",
@@ -30,10 +32,10 @@ export default function Hero() {
           {data?.title.english || data?.title.userPreferred || data?.title.romaji || data?.title.native}
         </h1>
         <h1 className={"md:max-w-[45rem] sm:max-w-[20rem] text[1.2rem] md:text-[1rem] sm:text-[0.9rem] md:line-clamp-none line-clamp-[9]"}>
-          {data?.description.replace(/\(Source:[\s\S]*$/g, '').replace(/<[^>]*>/g, '')}
+          {cleanDescription(data?.description)}
         </h1>
       </div>
-      <div className="h-full w-full pointer-events-none bg-gradient-to-b from-transparent to-[#141414]"/>
+      <div className="h-full w-full pointer-events-none bg-gradient-to-b from-transparent to-background"/>
     </header>
   )
 }
