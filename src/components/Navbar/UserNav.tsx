@@ -70,10 +70,12 @@ export function UserNav({ session } : AuthSessionProp) {
       <Button onClick={async () => await supabase.auth.signInWithOAuth({ provider: "google" })}>
         <LogIn className="mr-2 h-4 w-4"/> Google
       </Button>
-      <Switch
-        checked={theme === "dark"}
-        onClick={() => theme === "dark" ? setTheme("light") : setTheme("dark")}
-      />
+      {theme && (
+        <Switch
+          checked={theme === "dark"}
+          onClick={() => theme === "dark" ? setTheme("light") : setTheme("dark")}
+        />
+      )}
     </>
   )
 }

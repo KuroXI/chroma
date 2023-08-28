@@ -20,7 +20,7 @@ export default function FeaturedRow({ title, sort } : FeatureRowType) {
       .then(({ data } : { data: IResult<IManga> }) => setData(data))
   }, [sort, title]);
 
-  return (
+  return data && (
     <section>
       <div className={"flex flex-row justify-between items-center mb-2"}>
         <h1 className={"text-2xl font-bold text-primary uppercase"}>{title}</h1>
