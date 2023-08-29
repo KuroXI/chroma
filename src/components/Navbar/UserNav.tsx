@@ -16,7 +16,7 @@ import {Switch} from "@/components/ui/switch";
 import {useTheme} from "next-themes";
 import {Session} from "@supabase/gotrue-js";
 import {supabase} from "@/auth/supabase";
-import {LogIn} from "lucide-react";
+import {LogIn, Moon, Sun} from "lucide-react";
 
 interface AuthSessionProp {
   session: Session | null
@@ -70,12 +70,10 @@ export function UserNav({ session } : AuthSessionProp) {
       <Button onClick={async () => await supabase.auth.signInWithOAuth({ provider: "google" })}>
         <LogIn className="mr-2 h-4 w-4"/> Google
       </Button>
-      {theme && (
-        <Switch
-          checked={theme === "dark"}
-          onClick={() => theme === "dark" ? setTheme("light") : setTheme("dark")}
-        />
-      )}
+      <Button variant="outline" size="icon" onClick={() => theme === "dark" ? setTheme("light") : setTheme("dark")}>
+        <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+        <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      </Button>
     </>
   )
 }

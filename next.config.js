@@ -1,14 +1,12 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   images: {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "s4.anilist.co",
+        hostname: "image.tmdb.org",
         pathname: "/**"
       }
     ]
   }
 }
-
-module.exports = nextConfig

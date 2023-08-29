@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/*.slider {*/
-/*  -ms-overflow-style: none;*/
-/*  scrollbar-width: none;*/
-/*}*/
+.slider {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
-/*.slider::-webkit-scrollbar {*/
-/*  display: none;*/
-/*}*/
+.slider::-webkit-scrollbar {
+  display: none;
+}
 
 @layer base {
   :root {
