@@ -15,6 +15,11 @@ export default function Home() {
         endpoints={"/movie/top_rated?language=en-US&page=1"}
         type={"movie"}
       />
+      <ScrollHorizontal
+        title={"Top Rating TV Shows"}
+        endpoints={"/tv/top_rated?language=en-US&page=1"}
+        type={"tv"}
+      />
       {/*<ScrollHorizontal*/}
       {/*  title={"Continue Watching"}*/}
       {/*  endpoints={"/movie/upcoming?language=en-US&page=1"}*/}

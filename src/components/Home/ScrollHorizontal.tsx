@@ -1,7 +1,7 @@
 "use client";
 
 import {createRef, useEffect, useState} from "react";
-import {axiosInstance} from "@/api/axios";
+import {axiosTMDB} from "@/api/axios";
 import {ChevronLeft, ChevronRight} from "lucide-react";
 import {IInfo, IResult} from "@/types/Movie";
 import Image from "next/image";
@@ -19,9 +19,7 @@ export default function ScrollHorizontal({ title, endpoints, type } : ScrollHori
   const sliderRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
-    axiosInstance
-      .get(endpoints)
-      .then(({ data } : { data: IResult<IInfo> }) => setData(data.results));
+    axiosTMDB.get(endpoints).then(({ data } : { data: IResult<IInfo> }) => setData(data.results));
   }, [endpoints]);
 
   return (

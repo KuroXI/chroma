@@ -1,7 +1,7 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import {axiosInstance} from "@/api/axios";
+import {axiosTMDB} from "@/api/axios";
 import {parseImage} from "@/lib/utils";
 import {IInfo, ILogo} from "@/types/Movie";
 import Image from "next/image";
@@ -11,8 +11,7 @@ export default function Hero() {
   const [logo, setLogo] = useState<ILogo>();
 
   useEffect(() => {
-    axiosInstance
-      .get(`/movie/popular?language=en-US&page=1`)
+    axiosTMDB.get(`/movie/popular?language=en-US&page=1`)
       .then(({ data }) => {
         const random = Math.floor(Math.random() * data.results.length);
         setData(data.results[random]);
@@ -21,7 +20,7 @@ export default function Hero() {
 
   useEffect(() => {
     if (!data) return;
-    axiosInstance.get(`/movie/${data?.id}/images`).then((response) => {
+    axiosTMDB.get(`/movie/${data?.id}/images`).then((response) => {
       const { logos } = response.data;
       setLogo(logos.filter((logo : ILogo) => logo.iso_639_1 === "en")[0])
     });
@@ -47,7 +46,7 @@ export default function Hero() {
             className={"w-auto h-full min-h-[100px] max-h-[120px] rounded-md"}
           />
         ) : (
-          <h1 className={"xl:text-[2.8rem] lg:text-[2.5rem] md:text-[2.3rem] sm:text-[2rem] md:max-w-[45rem] font-[800] pb-[0.3rem]"}>
+          <h1 className={"xl:text-[2.8rem] lg:text-[2.5rem] md:text-[2.3rem] sm:text-[2rem] md:max-w-[45rem] font-[800]"}>
             {data?.title}
           </h1>
         )}
