@@ -6,7 +6,10 @@ import { type Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 
 export const metadata : Metadata = {
-  title: "Home"
+  title: {
+    default: "Chroma",
+    template: "%s | Chroma"
+  }
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {

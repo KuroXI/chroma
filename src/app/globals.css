@@ -66,4 +66,23 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .scroll-horizontal {
+    @apply
+      relative
+      max-w-[180px]
+      max-h-[250px]
+      min-w-[150px]
+      min-h-[200px]
+      w-[20vw]
+      h-[26vw]
+      inline-block
+      overflow-hidden
+      mr-2
+      rounded-md
+      hover:border-primary
+      hover:border-2
+      focus:border-primary
+      focus:border-2
+  }
 }

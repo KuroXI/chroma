@@ -17,13 +17,16 @@ import {useTheme} from "next-themes";
 import {Session} from "@supabase/gotrue-js";
 import {supabase} from "@/auth/supabase";
 import {LogIn, Moon, Sun} from "lucide-react";
+import {useEffect, useState} from "react";
 
-interface AuthSessionProp {
-  session: Session | null
-}
-
-export function UserNav({ session } : AuthSessionProp) {
+export function UserNav() {
   const { theme, setTheme } = useTheme();
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    supabase.auth.onAuthStateChange((_event, session) => setSession(session))
+  }, []);
 
   return session ? (
     <DropdownMenu>
@@ -46,7 +49,6 @@ export function UserNav({ session } : AuthSessionProp) {
         <DropdownMenuGroup>
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuItem>Bookmark</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>
             Dark Mode

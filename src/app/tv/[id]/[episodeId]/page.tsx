@@ -7,6 +7,7 @@ import {ISeasonInfo, IVideo} from "@/types/Movie";
 import {useParams} from "next/navigation";
 import {Skeleton} from "@/components/ui/skeleton";
 import {axiosConsumet} from "@/api/axios";
+import {Separator} from "@/components/ui/separator";
 
 export default function Page() {
   const [data, setData] = useState<ISeasonInfo>();
@@ -14,8 +15,7 @@ export default function Page() {
   const { id, episodeId } = useParams();
 
   useEffect(() => {
-    axiosConsumet.get(`/meta/tmdb/info/${id}?type=tv`)
-      .then(({ data }) => setData(data));
+    axiosConsumet.get(`/meta/tmdb/info/${id}?type=tv`).then(({ data }) => setData(data));
 
     axiosConsumet.get(`/meta/tmdb/watch/${episodeId}?id=${id}`)
       .then(({ data }) => setVideo(data))
@@ -25,9 +25,7 @@ export default function Page() {
   return data && (
     <div className={"max-w-6xl mx-auto"}>
       {video ? <VideoPlayer {...video}/> : <Skeleton className={"w-full h-[500px]"}/>}
-      <div>
-        <h1>{data?.title}</h1>
-      </div>
+      <Separator className={"my-5"}/>
       <SeasonTabs seasons={data?.seasons}/>
       <div className={"mt-52"}/>
     </div>

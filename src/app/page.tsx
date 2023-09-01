@@ -1,5 +1,10 @@
 import Hero from "@/components/Home/Hero";
 import ScrollHorizontal from "@/components/Home/ScrollHorizontal";
+import {Metadata} from "next";
+
+export const metadata : Metadata = {
+  title: "Home"
+}
 
 export default function Home() {
   return (

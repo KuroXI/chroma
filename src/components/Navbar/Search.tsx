@@ -1,39 +1,33 @@
-import {useEffect, useState} from "react";
-import { axiosTMDB} from "@/api/axios";
-import {IMovie, IPerson, ISearchResult, IShow} from "@/types/Movie";
-import {Button} from "@/components/ui/button";
-import {cn} from "@/lib/utils";
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator
-} from "@/components/ui/command";
-import {DialogProps} from "@radix-ui/react-dialog";
+"use client";
+
+import {Key, useEffect, useState} from "react";
+import {axiosTMDB} from "@/api/axios";
+import {IMovie, IPerson, IShow} from "@/types/Movie";
+import {Input} from "@/components/ui/input";
+import Link from "next/link";
 import SearchMovie from "@/components/Search/SearchMovie";
 import SearchShow from "@/components/Search/SearchShow";
 import SearchPerson from "@/components/Search/SearchPerson";
 
-export default function Search({...props} : DialogProps) {
+export default function Search() {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [movieList, setMovieList] = useState<IMovie[]>();
-  const [showList, setShowList] = useState<IShow[]>();
-  const [personList, setPersonList] = useState<IPerson[]>();
+  const [data, setData] = useState<any>();
 
   useEffect(() => {
-    if (!query) return;
+    if (!query.length) return setData(undefined);
 
     const timeOutId = setTimeout(() => {
-      axiosTMDB.get(`/search/multi?query=${query}&include_adult=false&language=en-US&page=1`)
-        .then(({ data }) => {
-          setMovieList(data.results.filter((result : ISearchResult) => result.media_type === "movie" && result.poster_path !== null));
-          setShowList(data.results.filter((result : ISearchResult) => result.media_type === "tv" && result.poster_path !== null));
-          setPersonList(data.results.filter((result : ISearchResult) => result.media_type === "person" && result.profile_path !== null));
-        })
+      axiosTMDB.get(`/search/multi?query=${query}&language=en-US&page=1`)
+        .then(({data}) => {
+          setData(data.results.filter((result : any) =>
+            (result.media_type === "movie")
+              ? result.poster_path !== null
+              : (result.media_type === "tv")
+                ? result.poster_path !== null
+                : result.profile_path !== null
+          ));
+        });
     }, 1000);
 
     return () => clearTimeout(timeOutId);
@@ -41,42 +35,30 @@ export default function Search({...props} : DialogProps) {
 
   return (
     <>
-      <Button
-        variant="outline"
-        className={cn("relative w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64")}
-        onClick={() => setIsOpen(true)}
-        {...props}
-      >
-        <span className="hidden lg:inline-flex">Search...</span>
-      </Button>
-      <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
-        <CommandInput
-          value={query}
-          placeholder="Search a movie, show or people..."
-          onValueChange={(search) => setQuery(search)}
-        />
-        <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading={"Movie"}>
-            {movieList && movieList.map((movie, index) => (
-              <SearchMovie key={index} movie={movie} onIsOpen={setIsOpen}/>
-            ))}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading={"Show"}>
-            {showList && showList.map((show, index) => (
-              <SearchShow key={index} show={show} onIsOpen={setIsOpen}/>
-            ))}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading={"Movie"}>
-            {personList && personList.map((person, index) => (
-              <SearchPerson key={index} person={person} onIsOpen={setIsOpen}/>
-            ))}
-          </CommandGroup>
-          {query && <CommandItem>View More</CommandItem>}
-        </CommandList>
-      </CommandDialog>
+      <Input
+        type="search"
+        placeholder="Search..."
+        className={"md:w-[100px] lg:w-[500px]"}
+        onFocus={() => setIsOpen(true)}
+        onBlur={() => setIsOpen(false)}
+        onChange={(event) => setQuery(event.target.value)}
+      />
+      <div className={`absolute z-40 bg-background rounded-b-md md:w-[100px] lg:w-[500px] max-h-[500px] overflow-hidden
+        ${query.length && isOpen ? "h-full transition-all duration-500" : "h-0"}
+      `}>
+        <div className={"flex flex-col gap-2 pt-2 mx-2 overflow-y-scroll max-h-full"}>
+          {data?.map((data: IMovie | IShow | IPerson, index: Key) => {
+            return data.media_type === "movie"
+              ? <SearchMovie key={index} {...data as IMovie}/>
+              : data.media_type === "tv"
+                ? <SearchShow key={index} {...data as IShow}/>
+                : <SearchPerson key={index} {...data as IPerson}/>
+          })}
+          { data && (
+            <Link href={`/search/${query}`} className={"flex items-center justify-center mt-2 mb-4"}>View More</Link>
+          )}
+        </div>
+      </div>
     </>
   )
 }
