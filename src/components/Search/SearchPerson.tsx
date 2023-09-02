@@ -3,11 +3,21 @@ import Image from "next/image";
 import {parseImage} from "@/lib/utils";
 import {IPerson} from "@/types/Movie";
 import {Separator} from "@/components/ui/separator";
+import {Dispatch, SetStateAction} from "react";
 
-export default function SearchPerson(person : IPerson) {
+type SearchPersonProps = {
+  person : IPerson
+  onClick: Dispatch<SetStateAction<boolean>>
+}
+
+export default function SearchPerson({ person, onClick } : SearchPersonProps) {
   return (
     <>
-      <Link href={`/person/${person.id}`} className={"flex py-4 px-2 gap-4 hover:bg-muted rounded-md"}>
+      <Link
+        href={`/person/${person.id}`}
+        className={"flex py-4 px-2 gap-4 hover:bg-muted rounded-md"}
+        onClick={() => onClick(false)}
+      >
         <Image
           src={parseImage(person.profile_path)}
           alt={person.original_name}

@@ -3,11 +3,21 @@ import {parseImage} from "@/lib/utils";
 import {IShow} from "@/types/Movie";
 import Link from "next/link";
 import {Separator} from "@/components/ui/separator";
+import {Dispatch, SetStateAction} from "react";
 
-export default function SearchShow(show : IShow) {
+type SearchShowProps = {
+  show: IShow
+  onClick: Dispatch<SetStateAction<boolean>>
+}
+
+export default function SearchShow({ show, onClick } : SearchShowProps) {
   return (
     <>
-      <Link href={`/tv/${show.id}`} className={"flex py-4 px-2 gap-4 hover:bg-muted rounded-md"}>
+      <Link
+        href={`/tv/${show.id}`}
+        className={"flex py-4 px-2 gap-4 hover:bg-muted rounded-md"}
+        onClick={() => onClick(false)}
+      >
         <Image
           src={parseImage(show.poster_path)}
           alt={show.original_name}

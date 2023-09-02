@@ -8,6 +8,7 @@ export default function VideoPlayer(video : IVideo) {
     <MediaPlayer
       src={video.sources.find((source) => source.quality === "auto")?.url}
       aspectRatio={16 / 9}
+      load={"idle"}
       crossorigin={"anonymous"}
     >
       <MediaOutlet className={"relative"}>

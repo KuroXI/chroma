@@ -1,6 +1,7 @@
 import Hero from "@/components/Home/Hero";
 import ScrollHorizontal from "@/components/Home/ScrollHorizontal";
 import {Metadata} from "next";
+import Image from "next/image";
 
 export const metadata : Metadata = {
   title: "Home"

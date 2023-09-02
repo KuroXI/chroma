@@ -14,7 +14,7 @@ export default function Hero() {
   const [logo, setLogo] = useState<ILogo>();
 
   useEffect(() => {
-    axiosTMDB.get(`/movie/popular?language=en-US&page=1&perPage=50`).then(({ data }) => {
+    axiosTMDB.get(`/movie/popular?language=en-US&page=1`).then(({ data }) => {
       const random = Math.floor(Math.random() * data.results.length)
       const selectedResult = data.results[random]
 
