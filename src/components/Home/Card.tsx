@@ -1,5 +1,7 @@
+"use client";
+
 import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card";
-import {parseImage} from "@/lib/utils";
+import {parseImage, proxyImage} from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import {MovieCardType, ShowCardType} from "@/types/Movie";
@@ -16,7 +18,7 @@ export default function Card({ type, data } : CardProps) {
         <HoverCardTrigger asChild>
           <Image
             key={data.id}
-            src={parseImage(data?.poster_path)}
+            src={proxyImage(parseImage(data.poster_path))}
             alt={data.poster_path}
             fill
             sizes={"(min-width: 1080px) 180px, (min-width: 800px) calc(15.38vw + 37px), 146px"}

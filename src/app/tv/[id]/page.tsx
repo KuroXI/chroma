@@ -29,7 +29,7 @@ export default function Page() {
       <div className={"relative max-w-6xl mx-auto mt-[-120px] px-5 pt-5"}>
         <Info {...data}/>
         <Separator className={"my-5"}/>
-        <SeasonTabs seasons={data.seasons} />
+        <SeasonTabs seasons={data.seasons.filter((season) => season.isReleased)} />
         <div className={"mt-52"}/>
       </div>
     </>

@@ -18,6 +18,7 @@ import {Session} from "@supabase/gotrue-js";
 import {supabase} from "@/auth/supabase";
 import {LogIn, Moon, Sun} from "lucide-react";
 import {useEffect, useState} from "react";
+import {proxyImage} from "@/lib/utils";
 
 export function UserNav() {
   const { theme, setTheme } = useTheme();
@@ -33,7 +34,7 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={session.user.user_metadata.avatar_url} alt={session.user.user_metadata.full_name}/>
+            <AvatarImage src={proxyImage(session.user.user_metadata.avatar_url)} alt={session.user.user_metadata.full_name}/>
             <AvatarFallback>{session.user.user_metadata.full_name.substring(0, 1).toUpperCase()}</AvatarFallback>
           </Avatar>
         </Button>

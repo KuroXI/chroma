@@ -5,7 +5,7 @@ module.exports = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "image.tmdb.org",
+        hostname: "kurebiverse-consumet.vercel.app",
         pathname: "/**"
       }
     ]

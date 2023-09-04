@@ -1,12 +1,13 @@
 import Image from "next/image";
 import {IMovieInfo, ISeasonInfo} from "@/types/Movie";
+import {proxyImage} from "@/lib/utils";
 
 export default function Info(data: IMovieInfo | ISeasonInfo) {
   return (
     <div className={"flex md:flex-row flex-col md:items-end items-center gap-4"}>
       <div className={"md:mx-0 mx-auto"}>
         <Image
-          src={data?.image}
+          src={proxyImage(data?.image)}
           alt={"image"}
           width="0"
           height="0"
@@ -17,7 +18,7 @@ export default function Info(data: IMovieInfo | ISeasonInfo) {
       <div className={"mb-10"}>
         { data.logos.length ? (
           <Image
-            src={data.logos[0].url}
+            src={proxyImage(data.logos[0].url)}
             alt={data.title}
             width="0"
             height="0"

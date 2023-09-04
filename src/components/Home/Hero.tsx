@@ -2,7 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {axiosTMDB} from "@/api/axios";
-import {parseImage} from "@/lib/utils";
+import {parseImage, proxyImage} from "@/lib/utils";
 import {IInfo, ILogo} from "@/types/Movie";
 import Image from "next/image";
 import {Button} from "@/components/ui/button";
@@ -23,18 +23,18 @@ export default function Hero() {
 
         (logos.filter((logo : ILogo) => logo.iso_639_1 === "en").length)
           ? setLogo(logos.filter((logo : ILogo) => logo.iso_639_1 === "en")[0])
-          : setLogo(logos[0])
+          : setLogo(logos[0]);
       });
 
       setData(selectedResult);
-    })
+    });
   }, []);
 
   return data && (
     <header
       className={"relative h-[80vw] min-h-[350px] max-h-[550px] object-contain bg-background"}
       style={{
-        backgroundImage: `url(${parseImage(data.backdrop_path)})`,
+        backgroundImage: `url(${proxyImage(parseImage(data.backdrop_path))})`,
         backgroundSize: "cover",
         backgroundPosition: "top center"
       }}
@@ -42,7 +42,7 @@ export default function Hero() {
       <div className={"absolute md:mx-20 mx-5 top-[20%]"}>
         { logo?.file_path ? (
           <Image
-            src={parseImage(logo.file_path)}
+            src={proxyImage(parseImage(logo.file_path))}
             alt={logo.file_path!}
             width="0"
             height="0"
